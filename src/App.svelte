@@ -3,25 +3,50 @@
 	import Tailwindcss from './Tailwindcss.svelte';
 	import { shuffle } from './random';
 
-	const answers = [
-		'Yes',
-		'No',
-		'Certainly',
-		'Probably Not',
-		'Without A Doubt',
-		'Outlook Not Good',
-		'It Would Seem So',
-		'Don\'t Count On It',
-	];
+	// const answers = [
+	// 	'Yes',
+	// 	'No',
+	// 	'Certainly',
+	// 	'Probably Not',
+	// 	'Without A Doubt',
+	// 	'Outlook Not Good',
+	// 	'It Would Seem So',
+	// 	'Don\'t Count On It',
+	// ];
+
+  const official = [
+    'It is Certain.',
+    'It is decidedly so.',
+    'Without a doubt.',
+    'Yes definitely.',
+    'You may rely on it.',
+    'As I see it, yes.',
+    'Most likely.',
+    'Outlook good.',
+    'Yes.',
+    'Signs point to yes.',
+    'Reply hazy, try again.',
+    'Ask again later.',
+    'Better not tell you now.',
+    'Cannot predict now.',
+    'Concentrate and ask again.',
+    'Don\'t count on it.',
+    'My reply is no.',
+    'My sources say no.',
+    'Outlook not so good.',
+    'Very doubtful.',
+  ];
 	let display = '';
 	let shaking = false;
 
 	const wait = (ms: number) => new Promise(res => setTimeout(res, ms));
 
+  //let sid = 0;
 	async function shake() {
 		display = '';
 		shaking = true;
-		const answer = shuffle(answers)[0];
+		const answer = shuffle(official)[0]; //official[sid];
+    //sid = (sid + 1) % official.length;
 		await wait(1000);
 		display = answer;
 		shaking = false;
@@ -137,18 +162,28 @@
 		animation-timing-function: ease-in-out;
 		animation-iteration-count: 1;
 	}
+  .highlight {
+    background-image: radial-gradient(20% 8% at center 6%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) 90%, rgba(0,0,0,0) 100%), radial-gradient(65% 25% at center 5%, rgba(149,149,149,1) 0%, rgba(0,0,0,1) 100%);
+  }
+  .rim {
+    background-image: radial-gradient(65% 25% at center 95%, rgba(109,109,109,1) 0%, rgba(0,0,0,1) 100%);
+  }
 </style>
 <Tailwindcss />
 <ModeSwitcher />
 
-<div on:click={shake} class="shadow-lg h-64 w-64 mx-auto text-center bg-black relative rounded-full flex items-center justify-center" class:shake-slow={shaking}>
+<div on:click={shake} class="highlight cursor-pointer shadow-lg h-[75vmin] w-[75vmin] mx-auto text-center bg-black relative rounded-full flex items-center justify-center" class:shake-slow={shaking}>
 	{#if display}
-		<div class="flex items-center justify-center h-32 w-32 before:absolute before:top-[5.3rem] before:w-0 before:h-0 before:border-t-[6.9rem] before:border-r-[4rem] before:border-b-0 before:border-l-[4rem] before:border-transparent before:border-t-blue-800">
-			<div class="text-blue-300 z-10 w-[4rem]">{display}</div>
-		</div>
+    <div class="rim p-[0.5vmin] rounded-full">
+      <div class="rounded-full h-[50vmin] w-[50vmin] bg-black flex items-center justify-center">
+        <div class="flex items-center justify-center h-[40vmin] w-[40vmin] before:absolute before:top-[26.5vmin] before:w-0 before:h-0 before:border-t-[34.5vmin] before:border-r-[20vmin] before:border-b-0 before:border-l-[20vmin] before:border-transparent before:border-t-blue-800">
+          <div class="text-blue-300 z-10 w-[21vmin] text-[5vmin]">{display}</div>
+        </div>
+      </div>
+    </div>
 	{:else}
-		<div class="bg-white h-32 w-32 rounded-full flex items-center justify-center">
-			<div class="text-6xl dark:text-black">8</div>
+		<div class="bg-white h-[37vmin] w-[37vmin] rounded-full flex items-center justify-center">
+			<div class="text-[22vmin] dark:text-black">8</div>
 		</div>
 	{/if}
 </div>
